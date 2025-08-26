@@ -1,0 +1,13 @@
+{
+    "asset": "d582cfded3767794b880b3bb67c234b9",
+    "fileName": "0198e700-6ff1-76ba-8bdf-53130a72769c.wav",
+    "prompt": "A short, simple game start sound effect, like a cheerful \"ding-dong\".\r\nBright, clear, under 2 seconds, no background noise.\r",
+    "negativePrompt": "",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "a4a1aad1ef59cfe48d4c0c717d90ae52",
+    "duration": 10.0,
+    "autoTrim": false,
+    "hasReference": false
+}

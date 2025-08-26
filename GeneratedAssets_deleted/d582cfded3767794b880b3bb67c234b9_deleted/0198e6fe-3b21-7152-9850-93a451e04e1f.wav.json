@@ -1,0 +1,13 @@
+{
+    "asset": "d582cfded3767794b880b3bb67c234b9",
+    "fileName": "0198e6fe-3b21-7152-9850-93a451e04e1f.wav",
+    "prompt": "미니게임을 시작할 때 나오는 간단한 소리를 만들어줘. 띵동 같은 음이면 되지 않을까",
+    "negativePrompt": "",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "76fb7a84e5ecb4942f724f03ef69a506",
+    "duration": 10.0,
+    "autoTrim": false,
+    "hasReference": false
+}

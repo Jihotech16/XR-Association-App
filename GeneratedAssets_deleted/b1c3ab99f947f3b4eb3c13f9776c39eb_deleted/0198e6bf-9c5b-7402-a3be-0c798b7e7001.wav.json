@@ -1,0 +1,13 @@
+{
+    "asset": "b1c3ab99f947f3b4eb3c13f9776c39eb",
+    "fileName": "0198e6bf-9c5b-7402-a3be-0c798b7e7001.wav",
+    "prompt": "농구공이 그물에 들어갈 때의 골인할 때 나는 소리가 필요해.",
+    "negativePrompt": "",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "32578f7d4ad63e7a4e3f53d872c4f5a7",
+    "duration": 10.0,
+    "autoTrim": false,
+    "hasReference": false
+}
