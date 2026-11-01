@@ -8,15 +8,16 @@ public class TargetMiniGame : MonoBehaviour
     [Header("게임 설정")]
     [SerializeField] private float gameTime = 30f; // 게임 시간 (초)
     
-    [Header("UI 요소")]
-    [SerializeField] private TextMeshProUGUI timerText; // 타이머 텍스트 (TMP)
-    [SerializeField] private TextMeshProUGUI scoreText; // 점수 텍스트 (TMP)
-    [SerializeField] private TextMeshProUGUI gameOverText; // 게임 오버 텍스트 (TMP)
+    [Header("3D Text 컴포넌트")]
+    [SerializeField] private TextMeshPro timerText; // 타이머 텍스트 (3D TMP)
+    [SerializeField] private TextMeshPro scoreText; // 점수 텍스트 (3D TMP)
+    [SerializeField] private TextMeshPro gameOverText; // 게임 오버 텍스트 (3D TMP)
     
     [Header("게임 오브젝트")]
     [SerializeField] private GameObject targetPrefab; // 원판 프리팹
     [SerializeField] private Transform spawnArea; // 스폰 영역
     [SerializeField] private ObjectSpawner objectSpawner; // 물체 스폰 관리자
+    [SerializeField] private MiniGameStarter miniGameStarter; // MiniGameStarter 참조
     
     [Header("스폰 설정")]
     [SerializeField] private float spawnInterval = 2f; // 원판 스폰 간격
@@ -99,12 +100,13 @@ public class TargetMiniGame : MonoBehaviour
         if (objectSpawner != null)
             objectSpawner.OnGameEnd();
         
-        // 게임 오버 UI 표시
-        if (gameOverText != null)
+        // MiniGameStarter에 게임 종료 알림
+        if (miniGameStarter != null)
         {
-            gameOverText.gameObject.SetActive(true);
-            gameOverText.text = $"게임 종료!\n최종 점수: {currentScore}\n\n버튼을 눌러 재시작";
+            miniGameStarter.OnGameTimeEnded();
         }
+        
+        Debug.Log($"게임 종료! 최종 점수: {currentScore}");
     }
     
     public void RestartGame()
@@ -175,6 +177,12 @@ public class TargetMiniGame : MonoBehaviour
         UpdateUI();
         
         Debug.Log($"점수 획득! +{points} (총점: {currentScore})");
+    }
+    
+    // 현재 점수 반환
+    public int GetCurrentScore()
+    {
+        return currentScore;
     }
     
     private void UpdateUI()

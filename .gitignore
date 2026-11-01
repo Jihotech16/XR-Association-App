@@ -51,3 +51,28 @@ Thumbs.db
 *.sln
 *.user
 *.vs/
+# ────────────────
+# 7️⃣ 추가 자동 생성물 (누락분)
+# ────────────────
+# Unity 6 / Android 네이티브 빌드 임시 캐시
+.utmp/
+
+# AI Generators 등 자동 생성 에셋 캐시
+GeneratedAssets/
+GeneratedAssets_deleted/
+
+# IDE / 빌드 중간 산출물
+[Oo]bj/
+*.pidb
+*.booproj
+*.svd
+*.pdb.meta
+*.mdb.meta
+*.unityproj
+
+# Unity 진단/캡처 파일
+MemoryCaptures/
+Recordings/
+sysinfo.txt
+crashlytics-build.properties
+.vsconfig

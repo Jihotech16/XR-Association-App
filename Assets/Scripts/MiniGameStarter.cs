@@ -1,5 +1,6 @@
 using UnityEngine;
 using Oculus.Interaction;
+using TMPro;
 
 public class MiniGameStarter : MonoBehaviour
 {
@@ -7,9 +8,15 @@ public class MiniGameStarter : MonoBehaviour
     [SerializeField] private TargetMiniGame targetMiniGame; // 타겟 미니게임 참조
     [SerializeField] private bool isGameActive = false;
     
-    [Header("UI 설정")]
-    [SerializeField] private GameObject startUI; // 시작 UI
-    [SerializeField] private GameObject gameUI;  // 게임 중 UI
+    [Header("UI 텍스트")]
+    [SerializeField] private GameObject welcomeText; // 환영 텍스트
+    [SerializeField] private GameObject scoreText;   // 점수 텍스트
+    [SerializeField] private GameObject timerText;   // 타이머 텍스트
+    [SerializeField] private GameObject gameOverText; // 게임 오버 텍스트
+    
+    [Header("텍스트 관리")]
+    [SerializeField] private float welcomeReturnDelay = 60f; // 게임 종료 후 환영 텍스트로 돌아가는 시간 (초)
+    
     
     private IInteractableView interactableView;
     
@@ -28,11 +35,8 @@ public class MiniGameStarter : MonoBehaviour
         if (targetMiniGame != null)
             targetMiniGame.gameObject.SetActive(false);
             
-        if (startUI != null)
-            startUI.SetActive(true);
-            
-        if (gameUI != null)
-            gameUI.SetActive(false);
+        // 초기 텍스트 상태 설정 (Welcome만 활성화)
+        SetWelcomeTextActive();
     }
     
     private void OnInteractionStateChanged(InteractableStateChangeArgs args)
@@ -71,13 +75,9 @@ public class MiniGameStarter : MonoBehaviour
             targetMiniGame.gameObject.SetActive(true);
             targetMiniGame.StartGame();
         }
-            
-        // UI 변경
-        if (startUI != null)
-            startUI.SetActive(false);
-            
-        if (gameUI != null)
-            gameUI.SetActive(true);
+        
+        // 게임 중 텍스트 활성화 (Score, Timer만)
+        SetGameTextActive();
     }
     
     public void EndMiniGame()
@@ -93,13 +93,12 @@ public class MiniGameStarter : MonoBehaviour
             targetMiniGame.EndGame();
             targetMiniGame.gameObject.SetActive(false);
         }
-            
-        // UI 변경
-        if (startUI != null)
-            startUI.SetActive(true);
-            
-        if (gameUI != null)
-            gameUI.SetActive(false);
+        
+        // 게임 오버 텍스트 활성화
+        SetGameOverTextActive();
+        
+        // 1분 후 환영 텍스트로 돌아가기
+        Invoke(nameof(ReturnToWelcomeText), welcomeReturnDelay);
     }
     
     void OnDestroy()
@@ -107,5 +106,67 @@ public class MiniGameStarter : MonoBehaviour
         // 이벤트 구독 해제
         if (interactableView != null)
             interactableView.WhenStateChanged -= OnInteractionStateChanged;
+    }
+    
+    // 환영 텍스트만 활성화
+    private void SetWelcomeTextActive()
+    {
+        if (welcomeText != null) welcomeText.SetActive(true);
+        if (scoreText != null) scoreText.SetActive(false);
+        if (timerText != null) timerText.SetActive(false);
+        if (gameOverText != null) gameOverText.SetActive(false);
+        
+        Debug.Log("환영 텍스트 활성화");
+    }
+    
+    // 게임 중 텍스트 활성화 (Score, Timer만)
+    private void SetGameTextActive()
+    {
+        if (welcomeText != null) welcomeText.SetActive(false);
+        if (scoreText != null) scoreText.SetActive(true);
+        if (timerText != null) timerText.SetActive(true);
+        if (gameOverText != null) gameOverText.SetActive(false);
+        
+        Debug.Log("게임 중 텍스트 활성화 (Score, Timer)");
+    }
+    
+    // 게임 오버 텍스트만 활성화
+    private void SetGameOverTextActive()
+    {
+        if (welcomeText != null) welcomeText.SetActive(false);
+        if (scoreText != null) scoreText.SetActive(false);
+        if (timerText != null) timerText.SetActive(false);
+        if (gameOverText != null) 
+        {
+            gameOverText.SetActive(true);
+            
+            // 최종 점수 표시
+            if (targetMiniGame != null)
+            {
+                int finalScore = targetMiniGame.GetCurrentScore();
+                if (gameOverText.GetComponent<TextMeshPro>() != null)
+                {
+                    gameOverText.GetComponent<TextMeshPro>().text = $"게임 종료!\n최종 점수: {finalScore}\n\n다시 도전해보세요!";
+                }
+            }
+        }
+        
+        Debug.Log("게임 오버 텍스트 활성화");
+    }
+    
+    // 환영 텍스트로 돌아가기 (1분 후 자동 호출)
+    private void ReturnToWelcomeText()
+    {
+        SetWelcomeTextActive();
+        Debug.Log("1분 경과 - 환영 텍스트로 복귀");
+    }
+    
+    // TargetMiniGame에서 시간 종료 시 호출되는 메서드
+    public void OnGameTimeEnded()
+    {
+        if (isGameActive)
+        {
+            EndMiniGame();
+        }
     }
 }
